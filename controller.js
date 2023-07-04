@@ -150,3 +150,33 @@ exports.updateData = async (req, res) => {
   }
 };
 
+
+exports.deleteData = async (req, res) => {
+  let { id } = req.params;
+
+  try { 
+    await table.destroy(id, (err, record) => {
+      if (err) {
+        console.error(err); 
+        res.status(404).json({ 
+          status: 'error',
+          error: "resource not found",
+          message: "Invalid ID"
+        });
+        return; 
+      }
+      res.json({
+        status: 'success',
+        message: 'Record deleted successfully',
+      });
+    });
+    
+  } catch (err) {
+    console.error('Error creating data:', err);
+    res.status(500).json({ 
+      status: 'error',
+      message: 'Internal Server Error' 
+    });
+  }
+};
+
