@@ -1,4 +1,5 @@
 const base = require('./airtable.js');
+const { isRequestBodyEmpty, errorHandler, successHandler } = require('./helper');
 
 require('dotenv').config();
 const axios = require('axios');
@@ -9,37 +10,21 @@ const table = base(AIRTABLE_TABLE_NAME);
 
 exports.createData = async (req, res) => {
   let data = req.body;
-  // Check if the request body is empty
-  if (Object.keys(data).length === 0) {
-    return res.status(400).json({ 
-      status: 'error', 
-      error: 'Request body is empty' 
-    });
+  if (isRequestBodyEmpty(data)) {
+    return errorHandler(res, 400, 'Request body is empty');
   }
   try { 
     await table.create(data, (err, record) => {
       if (err) { 
         console.error(err); 
-        res.status(422).json({ 
-          status: 'error',
-          error: "Unprocessable",
-          message: err.message
-        });
-        return; 
+        return errorHandler(res, 422, 'Unprocessable', err.message);
       }
-      res.json({
-        status: 'success',
-        message: 'Record created successfully',
-        data: data,
-      });
+      successHandler(res, 200, 'Record created successfully', data)
     });
     
   } catch (err) {
     console.error(err);
-    res.status(500).json({ 
-      status: 'error',
-      message: 'Internal Server Error' 
-    });
+    return errorHandler(res, 500, 'Internal Server Error');
   }
 };
 
@@ -58,19 +43,11 @@ exports.fetchDataFromAirtable = async (req, res) => {
       DOB: record.get('DOB'),
       age: record.get('Age')
     }));
+    successHandler(res, 200, 'Data fetched successfully', data)
 
-    // Send the data as the API response
-    res.json({
-      status: 'success',
-      message: 'Data fetched successfully',
-      data: data,
-    });
   } catch (err) {
     console.error('Error retrieving data from Airtable:', err);
-    res.status(500).json({ 
-      status: 'error',
-      message: 'Internal Server Error' 
-    });
+    return errorHandler(res, 500, 'Internal Server Error');
   }
 };
 
@@ -99,17 +76,10 @@ exports.getDataById = async (req, res) => {
       age: record.fields['Age']
     };
 
-    res.json({
-      status: 'success',
-      message: 'Data fetched successfully',
-      data: data,
-    });
+    successHandler(res, 200, 'Data fetched successfully', data)
   } catch (err) {
     console.error(err.message);
-    res.status(404).json({ 
-      status: 'error',
-      message: 'Invalid Id' 
-    });
+    return errorHandler(res, 404, 'Invalid Id' );
   }
 }
 
@@ -117,36 +87,22 @@ exports.getDataById = async (req, res) => {
 exports.updateData = async (req, res) => {
   let data = req.body;
   let { id } = req.params;
-  if (Object.keys(data).length === 0) {
-    return res.status(400).json({ 
-      status: 'error', 
-      error: 'Request body is empty' 
-    });
+  if (isRequestBodyEmpty(data)) {
+    return errorHandler(res, 400, 'Request body is empty');
   }
   try { 
     await table.update(id, data, (err, record) => {
       if (err) {
-        if (err.statusCode == 404 ) return res.status(404).json({ error: 'Invalid Id' });
+        if (err.statusCode == 404 ) return errorHandler(res, 404, 'Invalid Id' );
         console.error(err); 
-        res.status(422).json({ 
-          status: 'error',
-          error: "Unprocessable",
-          message: err.message
-        });
-        return; 
+        return errorHandler(res, 422, 'Unprocessable', err.message);
       }
-      res.json({
-        status: 'success',
-        message: 'Record updated successfully',
-      });
+      successHandler(res, 200, 'Record updated successfully')
     });
     
   } catch (err) {
-    console.error('Error creating data:', err);
-    res.status(500).json({ 
-      status: 'error',
-      message: 'Internal Server Error' 
-    });
+    console.error('Error updating data:', err);
+    return errorHandler(res, 500, 'Internal Server Error');
   }
 };
 
@@ -158,25 +114,14 @@ exports.deleteData = async (req, res) => {
     await table.destroy(id, (err, record) => {
       if (err) {
         console.error(err); 
-        res.status(404).json({ 
-          status: 'error',
-          error: "resource not found",
-          message: "Invalid Id"
-        });
-        return; 
+        return errorHandler(res, 404, 'resource not found', 'Invalid Id' );
       }
-      res.json({
-        status: 'success',
-        message: 'Record deleted successfully',
-      });
+      successHandler(res, 200, 'Record deleted successfully')
     });
     
   } catch (err) {
-    console.error('Error creating data:', err);
-    res.status(500).json({ 
-      status: 'error',
-      message: 'Internal Server Error' 
-    });
+    console.error(err);
+    return errorHandler(res, 500, 'Internal Server Error');
   }
 };
 
