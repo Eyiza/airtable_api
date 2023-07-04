@@ -35,7 +35,7 @@ exports.createData = async (req, res) => {
     });
     
   } catch (err) {
-    console.error('Error creating data:', err);
+    console.error(err);
     res.status(500).json({ 
       status: 'error',
       message: 'Internal Server Error' 
@@ -89,7 +89,7 @@ exports.getDataById = async (req, res) => {
       }
     );
 
-    const record = await response.data;
+    const record = await response.data;    
 
     let data = {
       id: record.id,
@@ -105,10 +105,10 @@ exports.getDataById = async (req, res) => {
       data: data,
     });
   } catch (err) {
-    console.error('Error retrieving data from Airtable:', err);
-    res.status(500).json({ 
+    console.error(err.message);
+    res.status(404).json({ 
       status: 'error',
-      message: 'Internal Server Error' 
+      message: 'Invalid Id' 
     });
   }
 }
@@ -126,7 +126,7 @@ exports.updateData = async (req, res) => {
   try { 
     await table.update(id, data, (err, record) => {
       if (err) {
-        if (err.statusCode == 404 ) return res.status(404).json({ error: 'Invalid ID' });
+        if (err.statusCode == 404 ) return res.status(404).json({ error: 'Invalid Id' });
         console.error(err); 
         res.status(422).json({ 
           status: 'error',
@@ -161,7 +161,7 @@ exports.deleteData = async (req, res) => {
         res.status(404).json({ 
           status: 'error',
           error: "resource not found",
-          message: "Invalid ID"
+          message: "Invalid Id"
         });
         return; 
       }
