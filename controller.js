@@ -6,6 +6,44 @@ const AIRTABLE_BASE_ID = process.env.BASE_ID;
 const AIRTABLE_TABLE_NAME = 'Demo';
 
 const table = base(AIRTABLE_TABLE_NAME);
+
+exports.createData = async (req, res) => {
+  let data = req.body;
+  // Check if the request body is empty
+  if (Object.keys(data).length === 0) {
+    return res.status(400).json({ 
+      status: 'error', 
+      error: 'Request body is empty' 
+    });
+  }
+  try { 
+    await table.create(data, (err, record) => {
+      if (err) { 
+        console.error(err); 
+        res.status(422).json({ 
+          status: 'error',
+          error: "Unprocessable",
+          message: err.message
+        });
+        return; 
+      }
+      res.json({
+        status: 'success',
+        message: 'Record created successfully',
+        data: data,
+      });
+    });
+    
+  } catch (err) {
+    console.error('Error creating data:', err);
+    res.status(500).json({ 
+      status: 'error',
+      message: 'Internal Server Error' 
+    });
+  }
+};
+
+
 // Using Airtable through SDK method
 exports.fetchDataFromAirtable = async (req, res) => {
   try {
@@ -76,9 +114,9 @@ exports.getDataById = async (req, res) => {
 }
 
 
-exports.createData = async (req, res) => {
-  const data = req.body;
-  // Check if the request body is empty
+exports.updateData = async (req, res) => {
+  let data = req.body;
+  let { id } = req.params;
   if (Object.keys(data).length === 0) {
     return res.status(400).json({ 
       status: 'error', 
@@ -86,20 +124,20 @@ exports.createData = async (req, res) => {
     });
   }
   try { 
-    await table.create(data, (err, record) => {
-      if (err) { 
+    await table.update(id, data, (err, record) => {
+      if (err) {
+        if (err.statusCode == 404 ) return res.status(404).json({ error: 'Invalid ID' });
         console.error(err); 
-        res.status(400).json({ 
+        res.status(422).json({ 
           status: 'error',
-          error: "Bad request",
+          error: "Unprocessable",
           message: err.message
         });
         return; 
       }
       res.json({
         status: 'success',
-        message: 'Record created successfully',
-        data: data,
+        message: 'Record updated successfully',
       });
     });
     
@@ -111,3 +149,4 @@ exports.createData = async (req, res) => {
     });
   }
 };
+
