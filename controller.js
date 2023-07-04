@@ -5,17 +5,15 @@ const axios = require('axios');
 const AIRTABLE_BASE_ID = process.env.BASE_ID;
 const AIRTABLE_TABLE_NAME = 'Demo';
 
+const table = base(AIRTABLE_TABLE_NAME);
 // Using Airtable through SDK method
 exports.fetchDataFromAirtable = async (req, res) => {
   try {
-    // Specify your Airtable table name
-    const table = base('Demo');
-
     // Fetch records from the table
     const records = await table.select().firstPage();
 
     // Extract the necessary data from the records
-    const data = records.map((record) => ({
+    let data = records.map((record) => ({
       id: record.id,
       name: record.get('Name'),
       level: record.get('Level'),
@@ -55,7 +53,7 @@ exports.getDataById = async (req, res) => {
 
     const record = await response.data;
 
-    const data = {
+    let data = {
       id: record.id,
       name: record.fields['Name'],
       level: record.fields['Level'],
@@ -76,3 +74,40 @@ exports.getDataById = async (req, res) => {
     });
   }
 }
+
+
+exports.createData = async (req, res) => {
+  const data = req.body;
+  // Check if the request body is empty
+  if (Object.keys(data).length === 0) {
+    return res.status(400).json({ 
+      status: 'error', 
+      error: 'Request body is empty' 
+    });
+  }
+  try { 
+    await table.create(data, (err, record) => {
+      if (err) { 
+        console.error(err); 
+        res.status(400).json({ 
+          status: 'error',
+          error: "Bad request",
+          message: err.message
+        });
+        return; 
+      }
+      res.json({
+        status: 'success',
+        message: 'Record created successfully',
+        data: data,
+      });
+    });
+    
+  } catch (err) {
+    console.error('Error creating data:', err);
+    res.status(500).json({ 
+      status: 'error',
+      message: 'Internal Server Error' 
+    });
+  }
+};
