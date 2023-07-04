@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e92a8508-4660-477f-861c-e7ec66ef06de",
+		"_postman_id": "c59ca7f3-d698-46f9-9813-fac8c0233f20",
 		"name": "airtable",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "17701170"
@@ -9,15 +9,145 @@
 		{
 			"name": "/data",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Airtable-Key",
+						"value": "keyXyd3alIalzRg7v",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "{{url}}/api",
+					"raw": "{{url}}/api/airtable",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
-						"api"
+						"api",
+						"airtable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/data:id",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Airtable-Key",
+						"value": "keyXyd3alIalzRg7v",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/airtable/recgMBt5FZPxbZ8eW",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"airtable",
+						"recgMBt5FZPxbZ8eW"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/data",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Airtable-Key",
+						"value": "keyXyd3alIalzRg7v",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"Eyiza\",\r\n    \"Level\": \"Alpha\",\r\n    \"Age\": 26\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/airtable",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"airtable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/data:id",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Airtable-Key",
+						"value": "keyXyd3alIalzRg7v",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"Temi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/airtable/reci4OngrbtnauhWM",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"airtable",
+						"reci4OngrbtnauhWM"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/data:id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Airtable-Key",
+						"value": "keyXyd3alIalzRg7v",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/airtable/reci4OngrbtnauhWM",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"airtable",
+						"reci4OngrbtnauhWM"
 					]
 				}
 			},
