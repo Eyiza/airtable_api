@@ -3,7 +3,6 @@ const { errorHandler } = require('./helper')
 const { createData, fetchData, fetchDataById, updateData, deleteData } = require('./services');
 
 require('dotenv').config();
-const axios = require('axios');
 const AIRTABLE_BASE_ID = process.env.BASE_ID;
 const AIRTABLE_TABLE_NAME = 'Demo';
 
