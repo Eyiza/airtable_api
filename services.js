@@ -1,8 +1,15 @@
-const { isRequestBodyEmpty, errorHandler, successHandler } = require('./helper')
+require('dotenv').config();
+const { isRequestBodyEmpty, errorHandler, successHandler, format } = require('./helper')
 const axios = require('axios');
+const AIRTABLE_BASE_ID = process.env.BASE_ID;
+const AIRTABLE_API_KEY = process.env.API_KEY;
+const AIRTABLE_TABLE_NAME = 'Demo';
+const base = require('./airtable.js');
+const table = base(AIRTABLE_TABLE_NAME);
 
 // Create data
-async function createData(table, data, res) {  
+async function createData(req, res) {  
+    let data = req.body;
     if (isRequestBodyEmpty(data)) {
       return errorHandler(res, 400, 'Request body is empty');
     }
@@ -17,41 +24,33 @@ async function createData(table, data, res) {
 
 
 // Fetch all data
-async function fetchData(table, res) {
-    const records = await table.select().firstPage();
-    let data = records.map((record) => ({
-        id: record.id,
-        name: record.get('Name'),
-        level: record.get('Level'),
-        DOB: record.get('DOB'),
-        age: record.get('Age'),
-    }));
+async function fetchData(req, res) {
+    const records = await table.select().all();
+    let data = records.map(format)
     successHandler(res, 200, 'Data fetched successfully', data)
 }
 
-async function fetchDataById(BASE_ID, API_KEY, TABLE_NAME, id, res) {
+// Fetch data by id
+async function fetchDataById(req, res) {
+    let { id } = req.params;
     const response = await axios.get(
-        `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}/${id}`,
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}/${id}`,
         {
         headers: {
-            Authorization: `Bearer ${API_KEY}`,
-            "Content-Type": "application/json"
-        },
+            Authorization: `Bearer ${AIRTABLE_API_KEY}`
+            },
         }
     );
+    
     const record = await response.data;    
-    let data = {
-        id: record.id,
-        name: record.fields['Name'],
-        level: record.fields['Level'],
-        DOB: record.fields['DOB'],
-        age: record.fields['Age']
-    };
+    let data = format(record)
     successHandler(res, 200, 'Data fetched successfully', data)
 }
 
 // Update data in Airtable
-async function updateData(table, id, data, res) {
+async function updateData(req, res) {
+    let data = req.body;
+    let { id } = req.params;
     if (isRequestBodyEmpty(data)) {
         return errorHandler(res, 400, 'Request body is empty');
     }
@@ -66,7 +65,8 @@ async function updateData(table, id, data, res) {
 }
 
 // Delete data from Airtable
-async function deleteData(table, id, res) {
+async function deleteData(req, res) {
+    let { id } = req.params;
     await table.destroy(id, (err, record) => {
       if (err) {
         console.error(err);
@@ -76,10 +76,25 @@ async function deleteData(table, id, res) {
     });
 }
 
+// Search by name
+async function searchByName(req, res){
+    searchQuery = req.query.name;
+    if (!searchQuery) return errorHandler(res, 400, 'Please provide a valid search parameter');
+    let filter = {
+        filterByFormula: `SEARCH('${searchQuery}', {Name})`
+    }
+    const records = await table.select(filter).all()
+    if (records.length === 0) return successHandler(res, 200, 'No records found' );
+    let data = records.map(format)
+    successHandler(res, 200, 'Data fetched successfully', data)
+}
+
+
 module.exports = {
     createData,
     fetchData,
     fetchDataById,
     updateData,
-    deleteData
+    deleteData,
+    searchByName
 };

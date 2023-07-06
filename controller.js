@@ -1,17 +1,10 @@
-const base = require('./airtable.js');
 const { errorHandler } = require('./helper')
-const { createData, fetchData, fetchDataById, updateData, deleteData } = require('./services');
+const { createData, fetchData, fetchDataById, updateData, deleteData, searchByName } = require('./services');
 
-require('dotenv').config();
-const AIRTABLE_BASE_ID = process.env.BASE_ID;
-const AIRTABLE_TABLE_NAME = 'Demo';
-
-const table = base(AIRTABLE_TABLE_NAME);
 
 exports.createData = async (req, res) => {
-  let data = req.body;
   try { 
-    await createData(table, data, res);    
+    await createData(req, res);    
   } catch (err) {
     console.error(err);
     return errorHandler(res, 500, 'Internal Server Error');
@@ -20,7 +13,7 @@ exports.createData = async (req, res) => {
 
 exports.fetchDataFromAirtable = async (req, res) => {
   try {
-    await fetchData(table, res);
+    await fetchData(req, res);
   } catch (err) {
     console.error('Error retrieving data from Airtable:', err);
     return errorHandler(res, 500, 'Internal Server Error');
@@ -28,21 +21,17 @@ exports.fetchDataFromAirtable = async (req, res) => {
 };
 
 exports.getDataById = async (req, res) => {
-  let { id } = req.params;
-  let AIRTABLE_API_KEY = req.headers['airtable-key'];
   try {
-    await fetchDataById(AIRTABLE_BASE_ID, AIRTABLE_API_KEY, AIRTABLE_TABLE_NAME, id, res)
+    await fetchDataById(req, res)
   } catch (err) {
-    console.error(err.message);
+    console.error(err);
     return errorHandler(res, 404, 'Invalid Id' );
   }
 }
 
 exports.updateData = async (req, res) => {
-  let data = req.body;
-  let { id } = req.params;
   try { 
-    await updateData(table, id, data, res)
+    await updateData(req, res)
   } catch (err) {
     console.error('Error updating data:', err);
     return errorHandler(res, 500, 'Internal Server Error');
@@ -51,12 +40,19 @@ exports.updateData = async (req, res) => {
 
 
 exports.deleteData = async (req, res) => {
-  let { id } = req.params;
   try { 
-    await deleteData(table, id, res)
+    await deleteData(req, res)
   } catch (err) {
     console.error(err);
     return errorHandler(res, 500, 'Internal Server Error');
   }
 };
 
+exports.search = async (req, res) => {
+  try {
+    await searchByName(req, res)   
+  } catch (err) {
+    console.error(`Search failed: ${err}`);
+    return errorHandler(res, 422, "Unprocessable Entity", `${err}`)
+  }
+}

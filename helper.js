@@ -13,8 +13,19 @@ function successHandler(res, statusCode, message, data) {
   return res.status(statusCode).json({ status: 'success', message, data });
 }
 
+function format(record) {
+  return {
+    "id": record.id,
+    "name": record.fields['Name'],
+    "level": record.fields['Level'],
+    "DOB": record.fields['DOB'],
+    "age": record.fields['Age']
+  }
+}
+
 module.exports = {
     isRequestBodyEmpty,
     errorHandler,
-    successHandler
+    successHandler, 
+    format
 }
