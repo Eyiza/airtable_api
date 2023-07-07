@@ -6,10 +6,9 @@ const headerCheckerMiddleware = require('./middleware');
 const app = express();
 
 app.use(bodyParser.json()); // To parse JSON data
-// Use the middleware
-app.use(headerCheckerMiddleware);
-// Use the router
-app.use('/api/airtable', router);
+app.use(headerCheckerMiddleware); // Use the middleware
+app.use('/api/airtable', router); // Use the router
+
 
 // Start the server
 const port = process.env.PORT || 3000;

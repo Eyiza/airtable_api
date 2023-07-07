@@ -1,15 +1,17 @@
 require('dotenv').config();
-const { errorHandler } = require('./helper');
-const AIRTABLE_API_KEY = process.env.API_KEY;
+const { errorHandler, calculateSHA256Hash } = require('./helper');
+const Authorization = process.env.AUTHORIZATION;
 
 // Middleware to check the presence of required headers
 function headerCheckerMiddleware(req, res, next) {
-    const apiKey = req.headers['airtable-key'];
-    if(!apiKey) {
-        return errorHandler(res, 401, 'API key missing');
+    const Authorization_Key = req.headers['x-airtable'];
+    if(!Authorization_Key) {
+        return errorHandler(res, 401, 'Authorization key missing');
     }
-    if (apiKey !== AIRTABLE_API_KEY) {
-        errorHandler(res, 401, 'Invalid API key')
+    const hashedAuthorizationKey = calculateSHA256Hash(Authorization_Key);
+    const hashedStoredAuthorization = calculateSHA256Hash(Authorization);
+    if (hashedAuthorizationKey !== hashedStoredAuthorization) {
+        return errorHandler(res, 401, 'Invalid Authorization key')
     }
     next();
 };

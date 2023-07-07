@@ -1,12 +1,15 @@
 const router = require('express').Router();
-const controller = require('./controller.js');
+const airtableController = require('./controllers/airtable_controller.js');
+const cronController = require('./controllers/cronjob_controller.js')
 
 router
-    .get('/', controller.fetchDataFromAirtable)
-    .get('/search', controller.search)
-    .get('/:id', controller.getDataById)
-    .post('/', controller.createData)
-    .patch('/:id', controller.updateData)
-    .delete('/:id', controller.deleteData)
+    .get('/start-cron', cronController.start)
+    .get('/stop-cron', cronController.stop)
+    .get('/', airtableController.fetchDataFromAirtable)
+    .get('/search', airtableController.search)
+    .get('/:id', airtableController.getDataById)
+    .post('/', airtableController.createData)
+    .patch('/:id', airtableController.updateData)
+    .delete('/:id', airtableController.deleteData)
 
 module.exports = router;
