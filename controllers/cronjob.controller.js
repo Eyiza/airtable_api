@@ -1,6 +1,6 @@
 const cron = require('node-cron');
-const { mailService } = require('../services/mailservice.js');
-const { getRecordCount } = require('../caching/redis');
+const { mailService } = require('../services/mail.service.js');
+const { getRecordCount } = require('../caching/redis.js');
 
 let job;
 

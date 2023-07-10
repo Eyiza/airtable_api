@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const airtableController = require('./controllers/airtable_controller.js');
-const cronController = require('./controllers/cronjob_controller.js')
+const airtableController = require('./controllers/airtable.controller.js');
+const cronController = require('./controllers/cronjob.controller.js')
 
 router
     .get('/start-cron', cronController.start)

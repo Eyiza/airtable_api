@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { isRequestBodyEmpty, errorHandler, successHandler, format } = require('../helper')
+const { isRequestBodyEmpty, errorHandler, successHandler, format } = require('../helpers/helper')
 const axios = require('axios');
 const AIRTABLE_BASE_ID = process.env.BASE_ID;
 const AIRTABLE_API_KEY = process.env.API_KEY;

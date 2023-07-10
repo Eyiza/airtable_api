@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { errorHandler, calculateSHA256Hash } = require('./helper');
+const { errorHandler, calculateSHA256Hash } = require('./helpers/helper');
 const Authorization = process.env.AUTHORIZATION;
 
 // Middleware to check the presence of required headers
