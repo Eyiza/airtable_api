@@ -13,14 +13,8 @@ async function getRecordCount() {
   // Check if the record count is already cached in Redis
   redisClient.get('recordCount', async (err, result) => {
     if (result) {
-        // return recordCount;
         console.log(result);
         return parseInt(result);
-        // return res.status(200).send({
-        //     success: true,
-        //     message: `Value for ${recordCount} from the cache`,
-        //     data: JSON.parse(result)
-        //   })
     }
     else {
         // If not cached, fetch the record count from Airtable
@@ -30,11 +24,6 @@ async function getRecordCount() {
         redisClient.set('recordCount', recordCount);
         console.log(recordCount);
         return recordCount;
-        // return res.status(200).send({
-        //     success: true,
-        //     message: `Value for ${recordCount} from the cache`,
-        //     data: JSON.parse(result)
-        // })
     }
   })
 }

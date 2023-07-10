@@ -1,7 +1,6 @@
-const base = require('../airtable.js');
 const cron = require('node-cron');
 const { mailService } = require('../services/mailservice.js');
-const table = base('Demo');
+const { getRecordCount } = require('../caching/redis');
 
 let job;
 
@@ -11,8 +10,8 @@ function startCronJob(req, res) {
     res.send('Cron job started')
     job = cron.schedule('*/15 * * * *', async () => {
     try {   
-        let record = await table.select().all()
-        let recordCount = record.length
+        let recordCount = await getRecordCount();
+        console.log(`Record count: ${recordCount}`);
         mailService(recordCount);
     } catch (err) {
         console.error('Error fetching records:', err);
