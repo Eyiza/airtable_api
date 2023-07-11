@@ -5,7 +5,7 @@ const { getRecordCount } = require('../caching/redis.js');
 let job;
 
 // Function to start the cron job that runs every 15 minutes
-function startCronJob(req, res) {
+async function startCronJob(req, res) {
     console.log('Cron job started');
     res.send('Cron job started')
     job = cron.schedule('*/15 * * * *', async () => {
@@ -18,6 +18,7 @@ function startCronJob(req, res) {
         }
     })
 };
+
 // Function to stop the cron job
 function stopCronJob(req, res) {
   if (job) {
