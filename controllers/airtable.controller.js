@@ -1,5 +1,5 @@
 const { errorHandler } = require('../helpers/helper')
-const { createData, fetchData, fetchDataById, updateData, deleteData, searchByName } = require('../services/airtable.service');
+const { createData, fetchData, fetchDataById, updateData, deleteData, searchByName } = require('../services/airtable.services');
 
 
 exports.createData = async (req, res) => {
