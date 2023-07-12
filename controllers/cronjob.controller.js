@@ -1,6 +1,6 @@
 const base = require('../airtable.js');
 const cron = require('node-cron');
-const { mailService } = require('../services/mailservice.js');
+const { mailService } = require('../services/mail.service.js');
 const table = base('Demo');
 
 let job;
