@@ -3,6 +3,11 @@ module.exports = {
         tags: ['Airtable CRUD operations'],
         description: "Get a record",
         operationId: 'getRecord',
+        security: [
+            {
+              ApiKeyAuth: [],
+            },
+        ],
         parameters:[
             {
                 name:"id",

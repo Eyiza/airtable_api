@@ -5,6 +5,9 @@ const Authorization = process.env.AUTHORIZATION;
 // Middleware to check the presence of required headers
 function headerCheckerMiddleware(req, res, next) {
     const Authorization_Key = req.headers['x-airtable'];
+    if (req.originalUrl.startsWith('/api-docs')) {
+        return next();
+      }
     if(!Authorization_Key) {
         return errorHandler(res, 401, 'Authorization key missing');
     }

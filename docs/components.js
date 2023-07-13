@@ -1,6 +1,13 @@
 
 module.exports = {
     components:{
+        securitySchemes: {
+            ApiKeyAuth: {
+              type: 'apiKey',
+              in: 'header',
+              name: 'x-airtable',
+            },
+        }, 
         schemas:{
             id:{
                 type:'string',

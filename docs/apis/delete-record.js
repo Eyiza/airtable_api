@@ -3,6 +3,11 @@ module.exports = {
         tags: ['Airtable CRUD operations'],
         description: "Deleting a record",
         operationId: "deleteRecord",
+        security: [
+            {
+              ApiKeyAuth: [],
+            },
+        ],
         parameters:[
             {
                 name:"id",
