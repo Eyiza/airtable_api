@@ -7,7 +7,7 @@ const AIRTABLE_TABLE_NAME = 'Demo';
 const base = require('../config/airtable.js');
 const table = base(AIRTABLE_TABLE_NAME);
 
-// Create data
+// Create data 
 async function createData(req, res) {  
     let data = req.body;
     if (isRequestBodyEmpty(data)) {

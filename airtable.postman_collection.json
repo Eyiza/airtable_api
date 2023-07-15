@@ -218,6 +218,9 @@
 		},
 		{
 			"name": "/stop-cron",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
 			"request": {
 				"method": "GET",
 				"header": [
@@ -266,7 +269,7 @@
 	"variable": [
 		{
 			"key": "url",
-			"value": "http://localhost:3000",
+			"value": "https://airtable-crud.onrender.com",
 			"type": "string"
 		}
 	]
