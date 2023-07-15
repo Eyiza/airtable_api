@@ -6,7 +6,9 @@ const swaggerUi = require('swagger-ui-express');
 const docs = require('./docs');
 const morgan = require("morgan");
 const cors = require("cors");
+const connect = require('./config/mongodb.js');
 
+connect();
 const app = express();
 
 app.use(morgan("dev"));

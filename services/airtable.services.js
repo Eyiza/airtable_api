@@ -4,7 +4,7 @@ const axios = require('axios');
 const AIRTABLE_BASE_ID = process.env.BASE_ID;
 const AIRTABLE_API_KEY = process.env.API_KEY;
 const AIRTABLE_TABLE_NAME = 'Demo';
-const base = require('../airtable.js');
+const base = require('../config/airtable.js');
 const table = base(AIRTABLE_TABLE_NAME);
 
 // Create data

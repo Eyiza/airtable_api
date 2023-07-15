@@ -1,5 +1,5 @@
 require('dotenv').config();
-const base = require('../airtable.js');
+const base = require('../config/airtable.js');
 const Redis = require('redis');
 const table = base('Demo');
 
