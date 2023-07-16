@@ -1,7 +1,4 @@
-# Airtable API Project
-
-This project is a Node.js application that provides a CRUD (Create, Read, Update, Delete) API for working with Airtable. It allows you to interact with an Airtable database using HTTP requests.
-
+## Table of Contents
 - [Airtable API Project](#airtable-api-project)
   - [Built with](#built-with)
   - [Getting Started](#getting-started)
@@ -28,6 +25,10 @@ This project is a Node.js application that provides a CRUD (Create, Read, Update
   - [Deployment N/A](#deployment-na)
   - [Author](#author)
 
+
+# Airtable API Project
+
+This project is a Node.js application that provides a CRUD (Create, Read, Update, Delete) API for working with Airtable. It allows you to interact with an Airtable database using HTTP requests.
 
 ## Built with
   * [NodeJS](https://nodejs.org/) and [Express](https://expressjs.com/) 
