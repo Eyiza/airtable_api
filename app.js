@@ -11,9 +11,12 @@ const connect = require('./config/mongodb.js');
 connect();
 const app = express();
 
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+}));
 app.use(morgan("dev"));
 app.use(bodyParser.json()); // To parse JSON data
-app.use(cors());
 app.use(headerCheckerMiddleware); // Use the middleware
 app.use('/api/airtable', router); // Use the router
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(docs));
