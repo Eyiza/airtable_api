@@ -16,11 +16,11 @@ Download the project code locally
 [Fork](https://help.github.com/en/articles/fork-a-repo) the project repository and [clone](https://help.github.com/en/articles/cloning-a-repository) your forked repository to your machine. 
 
 
-### Pre-requisites and Local Development 
+## Pre-requisites and Local Development 
 Developers using this project should already haveNodejs and Node Package Manager (NPM) installed on their local machines.
 
 
-### Installation
+## Installation
 
 1. **NPM Dependencies** - Install the required dependencies by navigating to the your project directory on the terminal and running:
 ```
@@ -38,8 +38,7 @@ All required packages are included in the `package.json` file.
 - Copy your base ID from the API documentation page.
 
 
-3. **Configuration** - Before running the application, you need to configure your Airtable credentials. <br>
-Create a `.env` file at root level and add the following to it (otherwise hard code their strings in airtable.service.js file).
+3. **Configuration** <br> Before running the application, you need to configure your Airtable credentials. Create a `.env` file at root level and add the following to it (otherwise hard code their strings in airtable.service.js file).
 ```
 API_KEY=your_api_key
 BASE_ID=your_base_id
@@ -49,21 +48,18 @@ Note - In this project, the table's name i.e `Demo` is used to reference the tab
 To get the id of the table, go to the Airtable API documentation and click on the table you want to use. The id of the table is the last part of the url.
 
 
-4. **Set up your MONGO Database**
+4. **Set up your MONGO Database** <br>
 Configure the MongoDB connection by adding your MongoDB connection string to your `.env` file:
 ```
 MONGO_URL='MONGODB_URI=mongodb+srv://{username}:{password}@{cluster-host}/{database-name}?retryWrites=true&w=majority'
 ```
 
 
-4. **Run the development server**
+5. **Run the development server** <br>
 To run the application run the following commands from the project directory: <br>
 ```
 npm run dev 
-```
-OR
-
-```
+// or
 npm start
 ```
 
@@ -79,8 +75,7 @@ This provides an additional layer of security for your API.
 
 
 ## Mail Server
-This application uses [Node Mailer](https://nodemailer.com/) Package to handle emails. <br>
-Add the following to your `.env` file to set up the environment variables of the mailing server of your application (otherwise hard code the string ```EMAILUSER```, ```EMAILPASS``` and ```RECIPIENTS``` in mail.service.js file):<br> 
+This application uses [NodeMailer](https://nodemailer.com/) Package to handle emails. Add the following to your `.env` file to set up the environment variables of the mailing server of your application (otherwise hard code the string ```EMAILUSER```, ```EMAILPASS``` and ```RECIPIENTS``` in mail.service.js file):<br> 
 ```
 EMAILUSER=example@gmail.com
 EMAILPASS=password
@@ -250,9 +245,8 @@ The API will return the following error types when requests fail:
 
 
 ## Redis Cache
-This application utilizes a [Redis Cache](https://redis.io/) to store the number of records in the Airtable base. <br>
-When a request is made to fetch the number of records, the application checks if the value exists in the Redis cache. If it does, the value is retrieved from the cache. If not, the application fetches the value from the Airtable API, stores it in the cache, and returns the value to the client.<br>
-Please note that you will need to have Redis installed and running on your system or have access to a Redis server in order to use the Redis cache in your application. You can learn more about Redis and how to set it up by referring to the official [Redis documentation](https://redis.io/documentation)<br>
+This application utilizes a [Redis Cache](https://redis.io/) to store the number of records in the Airtable base. When a request is made to fetch the number of records, the application checks if the value exists in the Redis cache. If it does, the value is retrieved from the cache. If not, the application fetches the value from the Airtable API, stores it in the cache, and returns the value to the client.<br>
+Please note that you will need to have Redis installed and running on your system or have access to a Redis server in order to use the Redis cache in your application. You can learn more about Redis and how to set it up by referring to the official [Redis documentation](https://redis.io/documentation).<br>
 This cache helps improve performance by reducing the number of requests made to the Airtable API. The Redis cache is implemented using the [redis](https://www.npmjs.com/package/redis) package. 
 
 
@@ -283,17 +277,17 @@ Cron job stopped
 
 ## Tests
 1. Test your endpoints with [Postman](https://getpostman.com).
-   - Import the postman collection `./airtable.postman_collection.json`
+   - Import the [postman collection] (`./airtable.postman_collection.json`)
    - Right-clicking the collection folder, navigate to the edit tab, then the variables section and update the host variable to your running server link.
    - Run the collection individually.
 
-2. This application also includes a [Swagger](https://swagger.io/) documentation that can be accessed at `http://localhost:3000/api-docs` after starting the server
+2. This application also includes a [Swagger](https://swagger.io/) documentation that can be accessed at [http://localhost:3000/api-docs](http://localhost:3000/api-docs) after starting the server.
 
 
 ## Automation Script
 An automation script has been implemented to store updated records in MongoDB when a record is updated in Airtable. If a record already exists in MongoDB, it will be updated with the latest data. <br>
 
-#### Adding a Trigger to Airtable
+### Adding a Trigger to Airtable
 To add a trigger to your Airtable base, follow these steps:
 - Go to your Airtable base on the Airtable website.
 - Click on the "Automations" tab.
@@ -301,11 +295,11 @@ To add a trigger to your Airtable base, follow these steps:
 - Configure the trigger conditions as needed.
 - In the actions section, select the "Send webhook" action.
 - Enter the URL of your server's endpoint where the webhook will be received. For example, `{{url}}/api/airtable/webhook`.
-- Save the automation rule. <br>
+- Save the automation rule.
 Now, whenever the specified event occurs in your Airtable base, the webhook will be triggered and your server will receive the request at the designated endpoint `{{url}}/api/airtable/webhook`. 
 The webhook request is then handled in the [Webhook Controller](./controllers/webhook.controller.js) file.
 
-#### Testing locally with ngrok
+### Testing locally with ngrok
 To test the webhook locally, you can use [ngrok](https://ngrok.com/). <br>
 - Install ngrok by following the instructions on the [ngrok](https://ngrok.com/) website.
 - Start your server by running the command:
@@ -316,7 +310,7 @@ npm start
 ```
 ngrok http 3000
 ```
-- Copy the forwarding URL generated by ngrok and use it as the webhook URL in your Airtable automation rule. For example `https://1190-41-58-87-97.ngrok-free.app`. A sample automation script can look like so:
+- Copy the forwarding URL generated by ngrok and use it as the webhook URL in your Airtable automation rule. For example, `https://1190-41-58-87-97.ngrok-free.app`. A sample automation script can look like so:
 ``` 
 const axios = require('axios');
 let config = input.config();
