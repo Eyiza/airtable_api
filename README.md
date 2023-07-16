@@ -17,7 +17,7 @@ Download the project code locally
 
 
 ## Pre-requisites and Local Development 
-Developers using this project should already haveNodejs and Node Package Manager (NPM) installed on their local machines.
+Developers using this project should already have Nodejs and Node Package Manager (NPM) installed on their local machines.
 
 
 ## Installation
@@ -82,14 +82,14 @@ EMAILPASS=password
 RECIPIENTS=example@gmail.com,example2@gmail.com
 ``` 
 
-Google has a two-factor authentication (2FA) feature, which requires you to use an application-specific password to access your account when using a third-party application like Flask to send emails through Gmail. Therefore, you'll need to generate an application-specific password and use that password in your Flask app instead of your regular Gmail password.<br>
+Google has a two-factor authentication (2FA) feature, which requires you to use an application-specific password to access your account when using a third-party application like Node to send emails through Gmail. Therefore, you'll need to generate an application-specific password and use that password in your Node app instead of your regular Gmail password.<br>
 Here are the steps to generate an application-specific password:
 - Go to your Google account's security page at [myaccount.google.com/security](https://myaccount.google.com/security).
 - 2-step verification must be turned on for your gmail account.
 - Scroll down to the "Signing in to Google" section and click on "App passwords".
 - Select "Mail" and "Other (custom name)" as the app and device, respectively.
 - Enter a name for the custom app password (e.g. "Airtable CronJob password") and click on "Generate".
-- Google will generate a new password for you. Copy this password and use it in your Flask app's email configuration (MAIL_PASSWORD) instead of your regular Gmail password.
+- Google will generate a new password for you. Copy this password and use it in your Node app's email configuration (EMAILPASS) instead of your regular Gmail password.
 
 
 ## Error Handling
@@ -287,7 +287,7 @@ Cron job stopped
 ## Automation Script
 An automation script has been implemented to store updated records in MongoDB when a record is updated in Airtable. If a record already exists in MongoDB, it will be updated with the latest data. <br>
 
-### Adding a Trigger to Airtable
+#### Adding a Trigger to Airtable
 To add a trigger to your Airtable base, follow these steps:
 - Go to your Airtable base on the Airtable website.
 - Click on the "Automations" tab.
@@ -299,7 +299,7 @@ To add a trigger to your Airtable base, follow these steps:
 Now, whenever the specified event occurs in your Airtable base, the webhook will be triggered and your server will receive the request at the designated endpoint `{{url}}/api/airtable/webhook`. 
 The webhook request is then handled in the [Webhook Controller](./controllers/webhook.controller.js) file.
 
-### Testing locally with ngrok
+#### Testing locally with ngrok
 To test the webhook locally, you can use [ngrok](https://ngrok.com/). <br>
 - Install ngrok by following the instructions on the [ngrok](https://ngrok.com/) website.
 - Start your server by running the command:
