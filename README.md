@@ -2,6 +2,32 @@
 
 This project is a Node.js application that provides a CRUD (Create, Read, Update, Delete) API for working with Airtable. It allows you to interact with an Airtable database using HTTP requests.
 
+- [Airtable API Project](#airtable-api-project)
+  - [Built with](#built-with)
+  - [Getting Started](#getting-started)
+  - [Pre-requisites and Local Development](#pre-requisites-and-local-development)
+  - [Installation](#installation)
+  - [Middleware](#middleware)
+  - [Mail Server](#mail-server)
+  - [Error Handling](#error-handling)
+  - [API Endpoints](#api-endpoints)
+      - [GET /api/airtable - Retrieve all records from the Airtable base.](#get-apiairtable---retrieve-all-records-from-the-airtable-base)
+      - [POST /api/airtable - Create a new record in the Airtable table.](#post-apiairtable---create-a-new-record-in-the-airtable-table)
+      - [GET /api/airtable/:id - Retrieve a specific record by its ID.](#get-apiairtableid---retrieve-a-specific-record-by-its-id)
+      - [PATCH /api/airtable/:id - Update a specific record by its ID.](#patch-apiairtableid---update-a-specific-record-by-its-id)
+      - [DELETE /api/airtable/:id - Delete a specific record by its ID.](#delete-apiairtableid---delete-a-specific-record-by-its-id)
+      - [GET /api/airtable/search?name=query - Retrieve records that match the given name query.](#get-apiairtablesearchnamequery---retrieve-records-that-match-the-given-name-query)
+  - [Redis Cache](#redis-cache)
+  - [Cron Job](#cron-job)
+      - [GET /api/airtable/start-cron - Start the cron job to send periodic emails containing the number of records in the Airtable base.](#get-apiairtablestart-cron---start-the-cron-job-to-send-periodic-emails-containing-the-number-of-records-in-the-airtable-base)
+      - [GET /api/airtable/stop-cron - Stop the cron job from sending further emails.](#get-apiairtablestop-cron---stop-the-cron-job-from-sending-further-emails)
+  - [Tests](#tests)
+  - [Automation Script](#automation-script)
+      - [Adding a Trigger to Airtable](#adding-a-trigger-to-airtable)
+      - [Testing locally with ngrok](#testing-locally-with-ngrok)
+  - [Deployment N/A](#deployment-na)
+  - [Author](#author)
+
 
 ## Built with
   * [NodeJS](https://nodejs.org/) and [Express](https://expressjs.com/) 
