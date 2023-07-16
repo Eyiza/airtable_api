@@ -18,5 +18,9 @@ module.exports = {
         url: `http://localhost:${port}`,
         description: 'Local server',
       },
+      {
+        url: 'https://airtable-crud.onrender.com',
+        description: 'Render server'
+      },
     ]
 };
