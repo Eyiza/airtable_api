@@ -1,9 +1,9 @@
-const Record = require('../model.js');
+const Record = require('../models/Record.js');
 
 exports.updatedRecord = async (req, res) => {
     const updatedRecord = req.body;
     try {
-        record = { 
+        const record = { 
             name: updatedRecord.name, 
             level: updatedRecord.level,  
             dob: updatedRecord.dob, 

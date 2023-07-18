@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { isRequestBodyEmpty, errorHandler, successHandler, format } = require('../helpers/helper')
+const {updateRecordWithTransaction} = require('./transaction')
 const axios = require('axios');
 const AIRTABLE_BASE_ID = process.env.BASE_ID;
 const AIRTABLE_API_KEY = process.env.API_KEY;
@@ -54,6 +55,10 @@ async function updateData(req, res) {
     if (isRequestBodyEmpty(data)) {
         return errorHandler(res, 400, 'Request body is empty');
     }
+    if (data.Level == 'Gamma') {
+        return updateRecordWithTransaction(id, data, res)
+    }
+
     await table.update(id, data, (err, record) => {
       if (err) {
         if (err.statusCode == 404) return errorHandler(res, 404, 'Invalid Id');
@@ -88,7 +93,6 @@ async function searchByName(req, res){
     let data = records.map(format)
     successHandler(res, 200, 'Data fetched successfully', data)
 }
-
 
 module.exports = {
     createData,
